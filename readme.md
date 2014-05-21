@@ -1,4 +1,4 @@
-# TodoMVC using React + Flux
+# [TodoMVC using React + Flux](https://github.com/shaohua/todomvc-react-flux-backbone)
 
 ## The Flux part is implemented with Backbone components, hence different from [Facebook's official example](https://github.com/facebook/react/tree/master/examples/todomvc-flux)
 - the dispatcher uses Backbone.Events
