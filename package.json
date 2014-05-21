@@ -1,6 +1,6 @@
 {
   "name": "todomvc-react-flux-backbone",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "React + Flux implemented with Backbone",
   "main": "js/app.js",
   "dependencies": {
@@ -17,5 +17,9 @@
     "underscore": "^1.6.0"
   },
   "author": "Shao",
-  "license": "Apache 2"
+  "license": "Apache 2",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:shaohua/todomvc-react-flux-backbone.git"
+  }
 }
