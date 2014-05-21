@@ -131,14 +131,14 @@ AppDispatcher.on('all', function(eventName, payload) {
   var text;
 
   switch(eventName) {
-    case TodoConstants.TODO_CREATE:
+    case 'create':
       text = payload.text.trim();
       if (text !== '') {
         create(text);
       }
       break;
 
-    case TodoConstants.TODO_TOGGLE_COMPLETE_ALL:
+    case 'toggleCompleteAll':
       if (TodoStore.areAllComplete()) {
         updateAll({complete: false});
       } else {
@@ -146,26 +146,26 @@ AppDispatcher.on('all', function(eventName, payload) {
       }
       break;
 
-    case TodoConstants.TODO_UNDO_COMPLETE:
+    case 'undoComplete':
       update(payload.id, {complete: false});
       break;
 
-    case TodoConstants.TODO_COMPLETE:
+    case 'complete':
       update(payload.id, {complete: true});
       break;
 
-    case TodoConstants.TODO_UPDATE_TEXT:
+    case 'updateText':
       text = payload.text.trim();
       if (text !== '') {
         update(payload.id, {text: text});
       }
       break;
 
-    case TodoConstants.TODO_DESTROY:
+    case 'destroy':
       destroy(payload.id);
       break;
 
-    case TodoConstants.TODO_DESTROY_COMPLETED:
+    case 'destroyCompleted':
       destroyCompleted();
       break;
 
