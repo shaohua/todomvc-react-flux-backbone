@@ -1,5 +1,5 @@
 {
-  "name": "todomvc-flux-backbone",
+  "name": "todomvc-react-flux-backbone",
   "version": "0.0.1",
   "description": "React + Flux implemented with Backbone",
   "main": "js/app.js",
