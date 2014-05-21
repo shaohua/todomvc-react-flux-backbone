@@ -1,7 +1,7 @@
 {
-  "name": "todomvc-flux",
+  "name": "todomvc-flux-backbone",
   "version": "0.0.1",
-  "description": "Example Flux architecture.",
+  "description": "React + Flux implemented with Backbone",
   "main": "js/app.js",
   "dependencies": {
     "react": "~0.9"
@@ -16,6 +16,6 @@
     "backbone": "^1.1.2",
     "underscore": "^1.6.0"
   },
-  "author": "Bill Fisher",
+  "author": "Shao",
   "license": "Apache 2"
 }
