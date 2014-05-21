@@ -43,8 +43,8 @@ function create(text) {
 
 /**
  * Update a TODO item.
- * @param  {string} id 
- * @param {object} updates An object literal containing only the data to be 
+ * @param  {string} id
+ * @param {object} updates An object literal containing only the data to be
  *     updated.
  */
 function update(id, updates) {
@@ -52,9 +52,9 @@ function update(id, updates) {
 }
 
 /**
- * Update all of the TODO items with the same object. 
+ * Update all of the TODO items with the same object.
  *     the data to be updated.  Used to mark all TODOs as completed.
- * @param  {object} updates An object literal containing only the data to be 
+ * @param  {object} updates An object literal containing only the data to be
  *     updated.
 
  */
@@ -84,7 +84,7 @@ function destroyCompleted() {
 }
 
 var TodoStore = merge(EventEmitter.prototype, {
-  
+
   /**
    * Tests whether all the remaining TODO items are marked as completed.
    * @return {booleam}
@@ -127,7 +127,7 @@ var TodoStore = merge(EventEmitter.prototype, {
 });
 
 // Register to handle all updates
-AppDispatcher.register(function(payload) {
+AppDispatcher.on('VIEW_ACTION', function(payload) {
   var action = payload.action;
   var text;
 

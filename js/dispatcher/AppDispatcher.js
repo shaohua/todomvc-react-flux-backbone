@@ -18,11 +18,12 @@
  * A singleton that operates as the central hub for application updates.
  */
 
-var Dispatcher = require('./Dispatcher');
+var _ = require('underscore');
+var Backbone = require('backbone');
 
-var merge = require('react/lib/merge');
+var Dispatcher = _.extend({}, Backbone.Events);
 
-var AppDispatcher = merge(Dispatcher.prototype, {
+var AppDispatcher = _.extend({}, Dispatcher, {
 
   /**
    * A bridge function between the views and the dispatcher, marking the action
@@ -30,8 +31,7 @@ var AppDispatcher = merge(Dispatcher.prototype, {
    * @param  {object} action The data coming from the view.
    */
   handleViewAction: function(action) {
-    this.dispatch({
-      source: 'VIEW_ACTION',
+    this.trigger('VIEW_ACTION', {
       action: action
     });
   }
