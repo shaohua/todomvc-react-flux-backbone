@@ -44,11 +44,11 @@ var TodoApp = React.createClass({
   },
 
   componentDidMount: function() {
-    TodoStore.addChangeListener(this._onChange);
+    TodoStore.on('change', this._onChange);
   },
 
   componentWillUnmount: function() {
-    TodoStore.removeChangeListener(this._onChange);
+    TodoStore.off('change', this._onChange);
   },
 
   /**

@@ -16,13 +16,16 @@
  * TodoStore
  */
 
+var _ = require('underscore');
+var Backbone = require('backbone');
+
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var merge = require('react/lib/merge');
 
 var CHANGE_EVENT = 'change';
 
-var _todos = {};
+var _todos = new Backbone.Model();
 
 /**
  * Create a TODO item.
@@ -33,11 +36,11 @@ function create(text) {
   // server-side storage.
   // Using the current timestamp in place of a real id.
   var id = Date.now();
-  _todos[id] = {
+  _todos.set(id, {
     id: id,
     complete: false,
     text: text
-  };
+  });
 }
 
 /**
@@ -47,7 +50,9 @@ function create(text) {
  *     updated.
  */
 function update(id, updates) {
-  _todos[id] = merge(_todos[id], updates);
+  var beforeUpdate = _.clone( _todos.get(id) );
+  var updated = _.extend( beforeUpdate, updates);
+  _todos.set(id, updated);
 }
 
 /**
@@ -58,9 +63,9 @@ function update(id, updates) {
 
  */
 function updateAll(updates) {
-  for (var id in _todos) {
+  _.each(_todos.keys(), function(id){
     update(id, updates);
-  }
+  });
 }
 
 /**
@@ -68,34 +73,30 @@ function updateAll(updates) {
  * @param  {string} id
  */
 function destroy(id) {
-  delete _todos[id];
+  _todos.unset(id);
 }
 
 /**
  * Delete all the completed TODO items.
  */
 function destroyCompleted() {
-  for (var id in _todos) {
-    if (_todos[id].complete) {
+  _.each(_todos.keys(), function(id){
+    if (_todos.get(id).complete) {
       destroy(id);
     }
-  }
+  });
 }
 
-var TodoStore = merge(EventEmitter.prototype, {
+var TodoStore = _.extend(_todos, {
 
   /**
    * Tests whether all the remaining TODO items are marked as completed.
    * @return {booleam}
    */
   areAllComplete: function() {
-    for (id in _todos) {
-      if (!_todos[id].complete) {
-        return false;
-        break;
-      }
-    }
-    return true;
+    return _.every(_todos.keys(), function(id){
+      return _todos.get(id).complete;
+    });
   },
 
   /**
@@ -103,25 +104,7 @@ var TodoStore = merge(EventEmitter.prototype, {
    * @return {object}
    */
   getAll: function() {
-    return _todos;
-  },
-
-  emitChange: function() {
-    this.emit(CHANGE_EVENT);
-  },
-
-  /**
-   * @param {function} callback
-   */
-  addChangeListener: function(callback) {
-    this.on(CHANGE_EVENT, callback);
-  },
-
-  /**
-   * @param {function} callback
-   */
-  removeChangeListener: function(callback) {
-    this.removeListener(CHANGE_EVENT, callback);
+    return _todos.toJSON();
   }
 });
 
@@ -169,16 +152,9 @@ AppDispatcher.on('all', function(eventName, payload) {
       break;
 
     default:
-      return true;
+      return;
   }
 
-  // This often goes in each case that should trigger a UI change. This store
-  // needs to trigger a UI change after every view action, so we can make the
-  // code less repetitive by putting it here.  We need the default case,
-  // however, to make sure this only gets called after one of the cases above.
-  TodoStore.emitChange();
-
-  return true; // No errors.  Needed by promise in Dispatcher.
 });
 
 module.exports = TodoStore;
