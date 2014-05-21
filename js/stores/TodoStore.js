@@ -127,13 +127,12 @@ var TodoStore = merge(EventEmitter.prototype, {
 });
 
 // Register to handle all updates
-AppDispatcher.on('VIEW_ACTION', function(payload) {
-  var action = payload.action;
+AppDispatcher.on('all', function(eventName, payload) {
   var text;
 
-  switch(action.actionType) {
+  switch(eventName) {
     case TodoConstants.TODO_CREATE:
-      text = action.text.trim();
+      text = payload.text.trim();
       if (text !== '') {
         create(text);
       }
@@ -148,22 +147,22 @@ AppDispatcher.on('VIEW_ACTION', function(payload) {
       break;
 
     case TodoConstants.TODO_UNDO_COMPLETE:
-      update(action.id, {complete: false});
+      update(payload.id, {complete: false});
       break;
 
     case TodoConstants.TODO_COMPLETE:
-      update(action.id, {complete: true});
+      update(payload.id, {complete: true});
       break;
 
     case TodoConstants.TODO_UPDATE_TEXT:
-      text = action.text.trim();
+      text = payload.text.trim();
       if (text !== '') {
-        update(action.id, {text: text});
+        update(payload.id, {text: text});
       }
       break;
 
     case TodoConstants.TODO_DESTROY:
-      destroy(action.id);
+      destroy(payload.id);
       break;
 
     case TodoConstants.TODO_DESTROY_COMPLETED:
@@ -181,6 +180,6 @@ AppDispatcher.on('VIEW_ACTION', function(payload) {
   TodoStore.emitChange();
 
   return true; // No errors.  Needed by promise in Dispatcher.
-})
+});
 
 module.exports = TodoStore;

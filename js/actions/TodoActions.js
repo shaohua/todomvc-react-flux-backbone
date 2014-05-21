@@ -25,8 +25,7 @@ var TodoActions = {
    * @param  {string} text
    */
   create: function(text) {
-    AppDispatcher.handleViewAction({
-      actionType: TodoConstants.TODO_CREATE,
+    AppDispatcher.trigger(TodoConstants.TODO_CREATE, {
       text: text
     });
   },
@@ -36,8 +35,7 @@ var TodoActions = {
    * @param  {string} text
    */
   updateText: function(id, text) {
-    AppDispatcher.handleViewAction({
-      actionType: TodoConstants.TODO_UPDATE_TEXT,
+    AppDispatcher.trigger(TodoConstants.TODO_UPDATE_TEXT, {
       id: id,
       text: text
     });
@@ -50,13 +48,11 @@ var TodoActions = {
   toggleComplete: function(todo) {
     var id = todo.id;
     if (todo.complete) {
-      AppDispatcher.handleViewAction({
-        actionType: TodoConstants.TODO_UNDO_COMPLETE,
+      AppDispatcher.trigger(TodoConstants.TODO_UNDO_COMPLETE, {
         id: id
       });
     } else {
-      AppDispatcher.handleViewAction({
-        actionType: TodoConstants.TODO_COMPLETE,
+      AppDispatcher.trigger(TodoConstants.TODO_COMPLETE, {
         id: id
       });
     }
@@ -66,17 +62,14 @@ var TodoActions = {
    * Mark all ToDos as complete
    */
   toggleCompleteAll: function() {
-    AppDispatcher.handleViewAction({
-      actionType: TodoConstants.TODO_TOGGLE_COMPLETE_ALL
-    });
+    AppDispatcher.trigger(TodoConstants.TODO_TOGGLE_COMPLETE_ALL);
   },
 
   /**
    * @param  {string} id
    */
   destroy: function(id) {
-    AppDispatcher.handleViewAction({
-      actionType: TodoConstants.TODO_DESTROY,
+    AppDispatcher.trigger(TodoConstants.TODO_DESTROY, {
       id: id
     });
   },
@@ -85,9 +78,7 @@ var TodoActions = {
    * Delete all the completed ToDos
    */
   destroyCompleted: function() {
-    AppDispatcher.handleViewAction({
-      actionType: TodoConstants.TODO_DESTROY_COMPLETED
-    });
+    AppDispatcher.trigger(TodoConstants.TODO_DESTROY_COMPLETED);
   }
 
 };
